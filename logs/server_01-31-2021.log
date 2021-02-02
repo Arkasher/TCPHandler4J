@@ -1,0 +1,10 @@
+jan. 31, 2021 10:52:00 PM com.yan.tcphandler4j.server.Server init
+INFO: Server starting...
+jan. 31, 2021 10:52:00 PM com.yan.tcphandler4j.handlers.PacketHandler registerPackets
+INFO: Registering packets...
+jan. 31, 2021 10:52:00 PM com.yan.tcphandler4j.handlers.PacketHandler registerPackets
+INFO: 4 packets registred
+jan. 31, 2021 10:52:00 PM com.yan.tcphandler4j.server.Server startServer
+INFO: ServerProperties{ip='0.0.0.0', port=55000, maxPlayers=20, serverName='TCPHandler4JServer'}
+jan. 31, 2021 10:52:00 PM com.yan.tcphandler4j.server.Server init
+INFO: Server started! Took: 58ms

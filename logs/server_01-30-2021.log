@@ -1,0 +1,6 @@
+jan. 30, 2021 1:37:12 AM com.yan.tcphandler4j.server.Server init
+INFO: Server starting...
+jan. 30, 2021 1:37:12 AM com.yan.tcphandler4j.server.Server startServer
+INFO: ServerProperties{ip='0.0.0.0', port=55000, maxPlayers=20, serverName='TCPHandler4JServer'}
+jan. 30, 2021 1:37:12 AM com.yan.tcphandler4j.server.Server init
+INFO: Server started! Took: 72ms

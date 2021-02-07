@@ -3,6 +3,7 @@ package com.yan.tcphandler4j.server.socket;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.Server;
 import com.yan.tcphandler4j.server.packets.Packet;
+import com.yan.tcphandler4j.utils.ByteUtils;
 import com.yan.tcphandler4j.utils.TokenUtils;
 
 import java.io.IOException;
@@ -59,12 +60,12 @@ public class SocketClient extends Thread {
 
             while ((readCount = inputStream.read(bytes)) != -1) {
                 byte[] packetId = Arrays.copyOfRange(bytes, 0, 2);
-                if(PacketHandler.isTokenNeededForPacket(packetId[0])) {
-                    byte[] token = Arrays.copyOfRange(bytes, 1, 11);
-                    if(!TokenUtils.compare(token, this.token)) {
+                if (PacketHandler.isTokenNeededForPacket(packetId[0])) {
+                    byte[] token = Arrays.copyOfRange(bytes, 2, 12);
+                    if (!TokenUtils.compare(token, this.token)) {
                         continue;
                     }
-                    byte[] data = Arrays.copyOfRange(bytes, 10, bytes.length);
+                    byte[] data = Arrays.copyOfRange(bytes, 12, bytes.length);
                     PacketHandler.handle(packetId[0], data, this);
                     continue;
                 }

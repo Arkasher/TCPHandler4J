@@ -11,18 +11,22 @@ import java.util.HashMap;
 public class JoinPacketOut extends Packet {
 
     private String username;
+    private String uuid;
 
-    public JoinPacketOut(String username) {
+    public JoinPacketOut(String username, String uuid) {
         super(PacketHandler.PACKET_JOIN_OUT, PacketType.PACKET_OUT, null);
+        this.username = username;
+        this.uuid = uuid;
     }
 
     @Override
     public byte[] encode() {
-        byte[] data = new byte[17];
+        byte[] data = new byte[27];
 
         ByteBuffer buf = ByteBuffer.wrap(data);
 
         buf.put((byte) PacketHandler.PACKET_JOIN_OUT);
+        buf.put(uuid.getBytes(StandardCharsets.UTF_8));
         buf.put(username.getBytes(StandardCharsets.UTF_8));
 
         return buf.array();

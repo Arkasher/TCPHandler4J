@@ -1,5 +1,6 @@
 package com.yan.tcphandler4j.server;
 
+import com.yan.tcphandler4j.api.events.executors.PlayerJoinEventExecutor;
 import com.yan.tcphandler4j.api.events.executors.PlayerQuitEventExecutor;
 import com.yan.tcphandler4j.handlers.EventBus;
 import com.yan.tcphandler4j.handlers.Instance;
@@ -19,7 +20,7 @@ public class Server implements Tickable {
     private final int TPS = 20;
     private final int TICK_TIME = 1000000000 / TPS;
 
-    public static int PACKET_SIZE = 2048;
+    public static int PACKET_SIZE = 128;
 
     public Server(ServerProperties serverProperties) {
         this.serverProperties = serverProperties;
@@ -89,6 +90,7 @@ public class Server implements Tickable {
         EventBus eventBus = new EventBus();
 
         eventBus.registerEvents(new PlayerQuitEventExecutor());
+        eventBus.registerEvents(new PlayerJoinEventExecutor());
 
         Instance.put("eventBus", eventBus);
     }

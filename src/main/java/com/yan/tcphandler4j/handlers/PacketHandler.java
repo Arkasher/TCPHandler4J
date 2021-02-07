@@ -18,6 +18,7 @@ public class PacketHandler {
     public static int PACKET_JOIN_IN = 1;
     public static int PACKET_JOIN_OUT = 2;
     public static int PACKET_QUIT_IN = 3;
+    public static int PACKET_QUIT_OUT = 4;
     public static int PACKET_CONNECTION_START_IN = 5;
     public static int PACKET_CONNECTION_START_OUT = 6;
 
@@ -27,7 +28,7 @@ public class PacketHandler {
         Logger logger = Instance.get("logger", Logger.class);
         logger.info("Registering packets...");
         packets.add(new JoinPacketIn(null));
-        packets.add(new JoinPacketOut(null));
+        packets.add(new JoinPacketOut(null, null));
         packets.add(new ConnectionStartPacketOut(null));
         packets.add(new ConnectionStartPacketIn(null));
 

@@ -9,6 +9,7 @@ import com.yan.tcphandler4j.server.packets.out.JoinPacketOut;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class JoinPacketIn extends Packet {
 
@@ -25,7 +26,7 @@ public class JoinPacketIn extends Packet {
     public HashMap<String, Object> decode() {
         HashMap<String, Object> decodedPacket = new HashMap<>();
 
-        String username = new String(Arrays.copyOfRange(data, 0, data.length));
+        String username = new String(Arrays.copyOfRange(data, 0, data.length)).trim();
 
         decodedPacket.put("username", username);
 
@@ -34,7 +35,7 @@ public class JoinPacketIn extends Packet {
 
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
-        Packet packet = new JoinPacketOut((String)decodedPacket.get("username"));
+        Packet packet = new JoinPacketOut((String)decodedPacket.get("username"), UUID.randomUUID().toString().substring(0, 10));
         Instance.get("eventBus", EventBus.class).callEvent(new PlayerJoinEvent((String)decodedPacket.get("username")));
         PacketHandler.broadcast(packet);
     }

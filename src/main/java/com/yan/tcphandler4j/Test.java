@@ -2,6 +2,7 @@ package com.yan.tcphandler4j;
 
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.Server;
+import com.yan.tcphandler4j.utils.ByteUtils;
 import com.yan.tcphandler4j.utils.TokenUtils;
 
 import java.io.IOException;
@@ -26,14 +27,13 @@ public class Test {
         int readCount = 0;
 
         while ((readCount = inputStream.read(bytes)) != -1) {
+            bytes = ByteUtils.trim(bytes);
             if(bytes[0] == (byte)6) {
                 byte[] username = "YalzinBr".getBytes(StandardCharsets.UTF_8);
 
                 byte[] data = new byte[3000];
 
                 ByteBuffer buf = ByteBuffer.wrap(data);
-
-                System.out.println(bytes.length);
 
                 buf.put((byte) PacketHandler.PACKET_JOIN_IN);
                 buf.put(bytes);

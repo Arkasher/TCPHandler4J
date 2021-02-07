@@ -1,6 +1,7 @@
 package com.yan.tcphandler4j.server.socket;
 
 import com.yan.tcphandler4j.handlers.Instance;
+import com.yan.tcphandler4j.utils.TokenUtils;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -27,6 +28,16 @@ public class TCPServerSocket extends Thread {
 
     public List<SocketClient> getClients() {
         return clientList;
+    }
+
+    public SocketClient getClient(byte[] token) {
+        for(SocketClient client : getClients()) {
+            if (!TokenUtils.compare(token, client.getToken())) {
+                continue;
+            }
+            return client;
+        }
+        return null;
     }
 
     private long countConnections(InetAddress inetAddress) {

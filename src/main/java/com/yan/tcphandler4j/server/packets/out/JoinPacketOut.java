@@ -3,6 +3,7 @@ package com.yan.tcphandler4j.server.packets.out;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.packets.Packet;
 import com.yan.tcphandler4j.server.packets.in.JoinPacketIn;
+import com.yan.tcphandler4j.server.socket.SocketClient;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -43,8 +44,8 @@ public class JoinPacketOut extends Packet {
     }
 
     @Override
-    public Packet newInstance(byte[] data) {
-        return new JoinPacketIn(data);
+    public Packet newInstance(SocketClient client, byte[] data) {
+        return new JoinPacketOut(null, null);
     }
 
     @Override

@@ -5,17 +5,15 @@ import com.yan.tcphandler4j.handlers.EventBus;
 import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.packets.Packet;
-import com.yan.tcphandler4j.server.packets.out.JoinPacketOut;
+import com.yan.tcphandler4j.server.packets.out.ChatPacketOut;
 import com.yan.tcphandler4j.server.socket.SocketClient;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.UUID;
 
-public class JoinPacketIn extends Packet {
+public class ChatPacketIn extends Packet {
 
-    public JoinPacketIn(SocketClient client, byte[] data) {
-        super(PacketHandler.PACKET_JOIN_IN, PacketType.PACKET_IN, data, client);
+    public ChatPacketIn(SocketClient client, byte[] data) {
+        super(PacketHandler.PACKET_CHAT_IN, PacketType.PACKET_IN, data, client);
     }
 
     @Override
@@ -27,25 +25,22 @@ public class JoinPacketIn extends Packet {
     public HashMap<String, Object> decode() {
         HashMap<String, Object> decodedPacket = new HashMap<>();
 
-        String username = new String(Arrays.copyOfRange(data, 0, data.length)).trim();
-
-        decodedPacket.put("username", username);
+        decodedPacket.put("uuid", client.getUuid());
+        decodedPacket.put("message", data);
 
         return decodedPacket;
     }
 
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
-        String uuid = UUID.randomUUID().toString().substring(0, 10);
-        client.setUuid(uuid);
-        Packet packet = new JoinPacketOut((String)decodedPacket.get("username"), uuid);
+        Packet packet = new ChatPacketOut((String)decodedPacket.get("uuid"), (byte[])decodedPacket.get("message"));
         Instance.get("eventBus", EventBus.class).callEvent(new PlayerJoinEvent((String)decodedPacket.get("username")));
         PacketHandler.broadcast(packet);
     }
 
     @Override
     public Packet newInstance(SocketClient client, byte[] data) {
-        return new JoinPacketIn(client, data);
+        return new ChatPacketIn(client, data);
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.yan.tcphandler4j.handlers;
 
 import com.yan.tcphandler4j.server.Server;
+import com.yan.tcphandler4j.server.packets.in.ChatPacketIn;
 import com.yan.tcphandler4j.server.packets.in.ConnectionStartPacketIn;
 import com.yan.tcphandler4j.server.packets.in.JoinPacketIn;
 import com.yan.tcphandler4j.server.packets.Packet;
+import com.yan.tcphandler4j.server.packets.in.QuitPacketIn;
+import com.yan.tcphandler4j.server.packets.out.ChatPacketOut;
 import com.yan.tcphandler4j.server.packets.out.ConnectionStartPacketOut;
 import com.yan.tcphandler4j.server.packets.out.JoinPacketOut;
+import com.yan.tcphandler4j.server.packets.out.QuitPacketOut;
 import com.yan.tcphandler4j.server.socket.SocketClient;
 import com.yan.tcphandler4j.utils.TokenUtils;
 
@@ -21,16 +25,22 @@ public class PacketHandler {
     public static int PACKET_QUIT_OUT = 4;
     public static int PACKET_CONNECTION_START_IN = 5;
     public static int PACKET_CONNECTION_START_OUT = 6;
+    public static int PACKET_CHAT_IN = 7;
+    public static int PACKET_CHAT_OUT = 8;
 
     private static final List<Packet> packets = new ArrayList<>();
 
     public static void registerPackets() {
         Logger logger = Instance.get("logger", Logger.class);
         logger.info("Registering packets...");
-        packets.add(new JoinPacketIn(null));
+        packets.add(new JoinPacketIn(null, null));
         packets.add(new JoinPacketOut(null, null));
         packets.add(new ConnectionStartPacketOut(null));
         packets.add(new ConnectionStartPacketIn(null));
+        packets.add(new QuitPacketIn(null,null));
+        packets.add(new QuitPacketOut(null));
+        packets.add(new ChatPacketIn(null, null));
+        packets.add(new ChatPacketOut(null, null));
 
         logger.info(packets.size() + " packets registred");
     }
@@ -44,7 +54,7 @@ public class PacketHandler {
         if (packet == null) {
             return;
         }
-        Packet newPacket = packet.newInstance(data);
+        Packet newPacket = packet.newInstance(client, data);
         newPacket.execute(newPacket.decode());
     }
 

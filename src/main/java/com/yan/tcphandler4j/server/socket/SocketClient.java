@@ -3,7 +3,6 @@ package com.yan.tcphandler4j.server.socket;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.Server;
 import com.yan.tcphandler4j.server.packets.Packet;
-import com.yan.tcphandler4j.utils.ByteUtils;
 import com.yan.tcphandler4j.utils.TokenUtils;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ public class SocketClient extends Thread {
     private Socket socket;
     private long lastPacket = System.currentTimeMillis();
     private byte[] token;
+    private String uuid;
 
     public SocketClient(Socket socket) {
         this.socket = socket;
@@ -49,6 +49,22 @@ public class SocketClient extends Thread {
         this.token = token;
     }
 
+    public byte[] getToken() {
+        return this.token;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public void run() {
         try {
@@ -67,8 +83,10 @@ public class SocketClient extends Thread {
                     }
                     byte[] data = Arrays.copyOfRange(bytes, 12, bytes.length);
                     PacketHandler.handle(packetId[0], data, this);
+                    lastPacket = System.currentTimeMillis();
                     continue;
                 }
+                lastPacket = System.currentTimeMillis();
                 byte[] data = Arrays.copyOfRange(bytes, 1, bytes.length);
                 PacketHandler.handle(packetId[0], data, this);
             }

@@ -2,6 +2,7 @@ package com.yan.tcphandler4j.server.packets.in;
 
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.packets.Packet;
+import com.yan.tcphandler4j.server.socket.SocketClient;
 
 import java.util.HashMap;
 
@@ -29,7 +30,7 @@ public class ConnectionStartPacketIn extends Packet {
     }
 
     @Override
-    public Packet newInstance(byte[] data) {
+    public Packet newInstance(SocketClient client, byte[] data) {
         return new ConnectionStartPacketIn(data);
     }
 

@@ -8,7 +8,7 @@ public class PlayerQuitEventExecutor implements Listener {
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
-        event.print();
+
     }
 
 }

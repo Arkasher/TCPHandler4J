@@ -1,13 +1,11 @@
 package com.yan.tcphandler4j.api.events;
 
-public class PlayerQuitEvent extends Event {
+import com.yan.tcphandler4j.entities.Player;
 
-    public PlayerQuitEvent() {
+public class PlayerQuitEvent extends PlayerEvent {
 
-    }
-
-    public void print() {
-        System.out.println("player quit");
+    public PlayerQuitEvent(Player player) {
+        super(player);
     }
 
 }

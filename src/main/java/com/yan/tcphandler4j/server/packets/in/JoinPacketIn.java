@@ -1,9 +1,11 @@
 package com.yan.tcphandler4j.server.packets.in;
 
 import com.yan.tcphandler4j.api.events.PlayerJoinEvent;
+import com.yan.tcphandler4j.entities.Player;
 import com.yan.tcphandler4j.handlers.EventBus;
 import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
+import com.yan.tcphandler4j.server.Server;
 import com.yan.tcphandler4j.server.packets.Packet;
 import com.yan.tcphandler4j.server.packets.out.JoinPacketOut;
 import com.yan.tcphandler4j.server.socket.SocketClient;
@@ -37,9 +39,14 @@ public class JoinPacketIn extends Packet {
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
         String uuid = UUID.randomUUID().toString().substring(0, 10);
+        String username = (String)decodedPacket.get("username");
+        Player player = new Player(username, client);
         client.setUuid(uuid);
-        Packet packet = new JoinPacketOut((String)decodedPacket.get("username"), uuid);
-        Instance.get("eventBus", EventBus.class).callEvent(new PlayerJoinEvent((String)decodedPacket.get("username")));
+        Packet packet = new JoinPacketOut(username, uuid);
+
+        Instance.get("server", Server.class).addPlayer(player);
+
+        Instance.get("eventBus", EventBus.class).callEvent(new PlayerJoinEvent(player));
         PacketHandler.broadcast(packet);
     }
 

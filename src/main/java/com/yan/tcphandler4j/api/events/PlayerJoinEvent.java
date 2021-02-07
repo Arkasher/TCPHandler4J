@@ -1,16 +1,11 @@
 package com.yan.tcphandler4j.api.events;
 
-public class PlayerJoinEvent extends Event {
+import com.yan.tcphandler4j.entities.Player;
 
-    private String username;
+public class PlayerJoinEvent extends PlayerEvent {
 
-    public PlayerJoinEvent(String username) {
-        this.username = username;
-
-    }
-
-    public void print() {
-        System.out.println(username + " joined");
+    public PlayerJoinEvent(Player player) {
+        super(player);
     }
 
 }

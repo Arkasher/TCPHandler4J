@@ -8,7 +8,7 @@ public class PlayerJoinEventExecutor implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        event.print();
+
     }
 
 }

@@ -2,11 +2,14 @@ package com.yan.tcphandler4j.server;
 
 import com.yan.tcphandler4j.api.events.executors.PlayerJoinEventExecutor;
 import com.yan.tcphandler4j.api.events.executors.PlayerQuitEventExecutor;
+import com.yan.tcphandler4j.entities.Player;
 import com.yan.tcphandler4j.handlers.EventBus;
 import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.socket.TCPServerSocket;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,9 +25,12 @@ public class Server implements Tickable {
 
     public static int PACKET_SIZE = 128;
 
+    private List<Player> playerList;
+
     public Server(ServerProperties serverProperties) {
         this.serverProperties = serverProperties;
         this.tcpServerSocket = new TCPServerSocket(serverProperties.getIp(), serverProperties.getPort());
+        this.playerList = new ArrayList<>();
     }
 
     public void init() {
@@ -75,6 +81,32 @@ public class Server implements Tickable {
             logger.log(Level.SEVERE, "Tick loop error: " + throwable.getLocalizedMessage() + " | Restarting loop.");
             throwable.printStackTrace();
         }
+    }
+
+    public Player getPlayer(String uuid) {
+        for (Player player : playerList) {
+            if (player.getSocketClient().getUuid().equals(uuid)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public void addPlayer(Player player) {
+        playerList.add(player);
+    }
+
+    public void removePlayer(String uuid) {
+        Player player = getPlayer(uuid);
+        playerList.remove(player);
+    }
+
+    public void removePlayer(Player player) {
+        playerList.remove(player);
+    }
+
+    public List<Player> getPlayers() {
+        return playerList;
     }
 
     public void stop() {

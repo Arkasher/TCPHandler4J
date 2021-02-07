@@ -1,9 +1,11 @@
 package com.yan.tcphandler4j.server.packets.in;
 
 import com.yan.tcphandler4j.api.events.PlayerQuitEvent;
+import com.yan.tcphandler4j.entities.Player;
 import com.yan.tcphandler4j.handlers.EventBus;
 import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
+import com.yan.tcphandler4j.server.Server;
 import com.yan.tcphandler4j.server.packets.Packet;
 import com.yan.tcphandler4j.server.packets.out.QuitPacketOut;
 import com.yan.tcphandler4j.server.socket.SocketClient;
@@ -32,9 +34,14 @@ public class QuitPacketIn extends Packet {
 
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
+        Server server = Instance.get("server", Server.class);
+
+        Player player = server.getPlayer(client.getUuid());
+
         Packet packet = new QuitPacketOut((String) decodedPacket.get("uuid"));
-        Instance.get("eventBus", EventBus.class).callEvent(new PlayerQuitEvent());
+        Instance.get("eventBus", EventBus.class).callEvent(new PlayerQuitEvent(player));
         PacketHandler.broadcast(packet);
+        server.removePlayer(player);
     }
 
     @Override

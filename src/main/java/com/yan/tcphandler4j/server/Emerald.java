@@ -2,11 +2,7 @@ package com.yan.tcphandler4j.server;
 
 import com.yan.tcphandler4j.entities.Player;
 import com.yan.tcphandler4j.handlers.Instance;
-import com.yan.tcphandler4j.handlers.PacketHandler;
-import com.yan.tcphandler4j.server.packets.out.ChatPacketOut;
-import com.yan.tcphandler4j.server.packets.out.PacketKickOut;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Emerald {
@@ -14,11 +10,15 @@ public class Emerald {
     public static String emeraldUUID = "emerald-05";
 
     public static void broadcastMessage(String message) {
-        PacketHandler.broadcast(new ChatPacketOut(emeraldUUID, message.getBytes(StandardCharsets.UTF_8)));
+        Emerald.getPlayers().forEach((player) -> player.sendMessage(message));
     }
 
     public static void kickPlayer(Player player) {
-        player.getSocketClient().sendPacket(new PacketKickOut(player.getSocketClient().getUuid()));
+        player.disconnect("");
+    }
+
+    public static void kickPlayer(Player player, String message) {
+        player.disconnect(message);
     }
 
     public static Player getPlayer(String uuid) {

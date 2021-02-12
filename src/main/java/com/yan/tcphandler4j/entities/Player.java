@@ -43,7 +43,7 @@ public class Player extends Entity {
 
     }
 
-    public void disconnect(String  message) {
+    public void disconnect(String message) {
         socketClient.sendPacket(new PacketKickOut(socketClient.getUuid()));
         try {
             socketClient.getSocket().close();

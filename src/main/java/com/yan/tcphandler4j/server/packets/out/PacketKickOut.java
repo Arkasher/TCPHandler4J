@@ -1,7 +1,6 @@
 package com.yan.tcphandler4j.server.packets.out;
 
 import com.yan.tcphandler4j.handlers.PacketHandler;
-import com.yan.tcphandler4j.server.Server;
 import com.yan.tcphandler4j.server.packets.Packet;
 import com.yan.tcphandler4j.server.socket.SocketClient;
 
@@ -9,27 +8,23 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class ChatPacketOut extends Packet {
+public class PacketKickOut extends Packet {
 
-    private final String uuid;
-    private final byte[] message;
+    private String uuid;
 
-    public ChatPacketOut(String uuid, byte[] message) {
-        super(PacketHandler.PACKET_CHAT_OUT, PacketType.PACKET_OUT, null);
-        this.message = message;
+    public PacketKickOut(String uuid) {
+        super(PacketHandler.PACKET_KICK_OUT, PacketType.PACKET_OUT, null);
         this.uuid = uuid;
     }
 
     @Override
     public byte[] encode() {
-        byte[] data = new byte[Server.PACKET_SIZE];
+        byte[] data = new byte[27];
 
         ByteBuffer buf = ByteBuffer.wrap(data);
 
-        buf.put((byte) PacketHandler.PACKET_CHAT_OUT);
+        buf.put((byte) PacketHandler.PACKET_KICK_OUT);
         buf.put(uuid.getBytes(StandardCharsets.UTF_8));
-        buf.put(message);
-
         return buf.array();
     }
 
@@ -40,12 +35,12 @@ public class ChatPacketOut extends Packet {
 
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
-        
+
     }
 
     @Override
     public Packet newInstance(SocketClient client, byte[] data) {
-        return new ChatPacketOut(null, null);
+        return new PacketKickOut( null);
     }
 
     @Override

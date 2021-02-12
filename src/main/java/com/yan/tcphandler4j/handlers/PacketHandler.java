@@ -27,6 +27,8 @@ public class PacketHandler {
     public static int PACKET_CONNECTION_START_OUT = 6;
     public static int PACKET_CHAT_IN = 7;
     public static int PACKET_CHAT_OUT = 8;
+    public static int PACKET_KICK_IN = 9;
+    public static int PACKET_KICK_OUT = 10;
 
     private static final List<Packet> packets = new ArrayList<>();
 

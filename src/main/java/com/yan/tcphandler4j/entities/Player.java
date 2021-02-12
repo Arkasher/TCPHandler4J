@@ -35,4 +35,9 @@ public class Player extends Entity {
     public void sendMessage(String message) {
         socketClient.sendPacket(new ChatPacketOut(Emerald.emeraldUUID, message.getBytes(StandardCharsets.UTF_8)));
     }
+
+    //provisório
+    public void teleport(byte[] location) {
+
+    }
 }

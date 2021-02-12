@@ -4,6 +4,7 @@ import com.yan.tcphandler4j.entities.Player;
 import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
 import com.yan.tcphandler4j.server.packets.out.ChatPacketOut;
+import com.yan.tcphandler4j.server.packets.out.PacketKickOut;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Emerald {
     }
 
     public static void kickPlayer(Player player) {
-
+        player.getSocketClient().sendPacket(new PacketKickOut(player.getSocketClient().getUuid()));
     }
 
     public static Player getPlayer(String uuid) {

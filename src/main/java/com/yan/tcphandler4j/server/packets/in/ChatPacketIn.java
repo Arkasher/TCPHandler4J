@@ -1,6 +1,11 @@
 package com.yan.tcphandler4j.server.packets.in;
 
+import com.yan.tcphandler4j.api.events.PlayerChatEvent;
+import com.yan.tcphandler4j.api.events.PlayerJoinEvent;
+import com.yan.tcphandler4j.handlers.EventBus;
+import com.yan.tcphandler4j.handlers.Instance;
 import com.yan.tcphandler4j.handlers.PacketHandler;
+import com.yan.tcphandler4j.server.Emerald;
 import com.yan.tcphandler4j.server.packets.Packet;
 import com.yan.tcphandler4j.server.packets.out.ChatPacketOut;
 import com.yan.tcphandler4j.server.socket.SocketClient;
@@ -30,8 +35,7 @@ public class ChatPacketIn extends Packet {
 
     @Override
     public void execute(HashMap<String, Object> decodedPacket) {
-        Packet packet = new ChatPacketOut((String)decodedPacket.get("uuid"), (byte[])decodedPacket.get("message"));
-        PacketHandler.broadcast(packet);
+        Instance.get("eventBus", EventBus.class).callEvent(new PlayerChatEvent(Emerald.getPlayer((String) decodedPacket.get("uuid")), new String((byte[]) decodedPacket.get("message"))));
     }
 
     @Override

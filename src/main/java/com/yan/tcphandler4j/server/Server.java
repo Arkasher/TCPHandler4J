@@ -1,5 +1,6 @@
 package com.yan.tcphandler4j.server;
 
+import com.yan.tcphandler4j.api.events.executors.PlayerChatEventExecutor;
 import com.yan.tcphandler4j.api.events.executors.PlayerJoinEventExecutor;
 import com.yan.tcphandler4j.api.events.executors.PlayerQuitEventExecutor;
 import com.yan.tcphandler4j.entities.Player;
@@ -123,6 +124,7 @@ public class Server implements Tickable {
 
         eventBus.registerEvents(new PlayerQuitEventExecutor());
         eventBus.registerEvents(new PlayerJoinEventExecutor());
+        eventBus.registerEvents(new PlayerChatEventExecutor());
 
         Instance.put("eventBus", eventBus);
     }
